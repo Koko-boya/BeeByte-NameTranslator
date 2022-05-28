@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NoisyCowStudios.Il2CppInspector" Version="2021.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Bin2Object">
+      <HintPath>..\..\..\Il2CppInspector\Il2CppInspector.Common\bin\Debug\netcoreapp3.1\Bin2Object.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppInspector.Common">
+      <HintPath>..\..\..\Il2CppInspector\Il2CppInspector.Common\bin\Debug\netcoreapp3.1\Il2CppInspector.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir &quot;$(SolutionDir)..\..\..\Il2CppInspector\Il2CppInspector.GUI\bin\Debug\netcoreapp3.1\win-x64\plugins\$(ProjectName)&quot;&#xA;copy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\..\..\Il2CppInspector\Il2CppInspector.GUI\bin\Debug\netcoreapp3.1\win-x64\plugins\$(ProjectName)&quot;" />
+  </Target>
+</Project>

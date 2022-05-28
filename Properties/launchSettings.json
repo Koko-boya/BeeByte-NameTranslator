@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Il2CppInspector": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\strog\\Desktop\\Git repositories\\Il2CppInspector\\Il2CppInspector.GUI\\bin\\Debug\\netcoreapp3.1\\win-x64\\Il2CppInspector.exe"
+    }
+  }
+}
