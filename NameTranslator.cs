@@ -62,9 +62,17 @@ namespace Loader
             Value = "[A-Z]{11}"
         };
 
+        private PluginOptionText separator = new PluginOptionText
+        {
+            Name = "separator",
+            Required = true,
+            Description = "Separator for translation line.",
+            Value = "⇨"
+        };
+
         public List<IPluginOption> Options => new List<IPluginOption> { translationPath, obfuscationPattern };
 
-        Dictionary<string, string> nameMapping = null;
+        private Dictionary<string, string> nameMapping = null;
 
         string Translate(string name)
         {
@@ -89,20 +97,23 @@ namespace Loader
         // See: IL2CPP/Il2CppInspector.cs
         public void PostProcessPackage(Il2CppInspector.Il2CppInspector package, PluginPostProcessPackageEventInfo data)
         {
-            
-            if (File.Exists(translationPath.Value))
-            {
-                string[] nameTranslations = File.ReadAllLines(translationPath.Value);
-                nameMapping = new Dictionary<string, string>();
-                foreach (var line in nameTranslations)
-                {
-                    var split = line.Split("⇨", StringSplitOptions.RemoveEmptyEntries);
-                    if (split.Length < 2)
-                        continue;
 
-                    nameMapping[split[0]] = split[1];
-                }
+            if (!File.Exists(translationPath.Value))
+                return;
+
+            string[] nameTranslations = File.ReadAllLines(translationPath.Value);
+            nameMapping = new Dictionary<string, string>();
+            foreach (var line in nameTranslations)
+            {
+                var split = line.Split(separator.Value, StringSplitOptions.RemoveEmptyEntries);
+                if (split.Length < 2)
+                    continue;
+
+                nameMapping[split[0]] = split[1];
             }
+
+            if (nameMapping.Count == 0)
+                return;
 
             for (int i = 0; i < package.StringLiterals.Count(); i++)
             {
